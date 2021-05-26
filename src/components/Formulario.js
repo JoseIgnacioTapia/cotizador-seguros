@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
 const Campo = styled.div`
@@ -30,7 +30,7 @@ const Boton = styled.button`
   border: none;
   transition: background-color 0.3s ease;
   margin-top: 2rem;
-
+  /* SASS */
   &:hover {
     background-color: #26C6DA;
     cursor: pointer;
@@ -38,11 +38,33 @@ const Boton = styled.button`
 `;
 
 const Formulario = () => {
+
+  const [datos, guardarDatos] = useState({
+    marca: '',
+    year: '',
+    plan: ''
+  });
+
+  // Extraer los valores del state
+  const { marca, year, plan } = datos;
+
+  // Leer los datos del formulario y colocarlos en el tate
+  const obtenerInformación = e => {
+    guardarDatos({
+      ...datos,
+      [e.target.name] : e.target.value
+    })
+  }
+
   return ( 
     <form>
       <Campo>
         <Label>Marca</Label>
-        <Select>
+        <Select
+          name="marca"
+          marca={marca}
+          onChange={obtenerInformación}
+        >
           <option value="">--Seleccione--</option>
           <option value="americano">Americano</option>
           <option value="europeo">Europeo</option>
@@ -52,7 +74,11 @@ const Formulario = () => {
 
       <Campo>
         <Label>Año</Label>
-        <Select>
+        <Select
+          name="year"
+          año={year}
+          onChange={obtenerInformación}
+        >
           <option value="">-- Seleccione --</option>
           <option value="2021">2021</option>
           <option value="2020">2020</option>
@@ -73,12 +99,16 @@ const Formulario = () => {
           type="radio"
           name="plan"
           value="basico"
+          checked={plan === "basico"}
+          onChange={obtenerInformación}
         /> Básico
 
         <InputRadio
           type="radio"
           name="plan"
           value="completo"
+          checked={plan === "completo"}
+          onChange={obtenerInformación}
         /> Completo
       </Campo>
 

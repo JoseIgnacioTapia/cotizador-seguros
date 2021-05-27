@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Header from "./components/Header";
 import Formulario from "./components/Formulario";
 import Resumen from "./components/Resumen";
+import Resultado from "./components/Resultado";
 
 import styled from '@emotion/styled';
 
@@ -17,7 +18,7 @@ const ContenedorFormulario = styled.div`
 function App() {
 
   const [resumen, guardarResumen] = useState({
-    cotizacion: '',
+    cotizacion: 0,
     datos: {
       marca: '',
       year: '',
@@ -25,7 +26,7 @@ function App() {
     }
   });
   // Only extracting datos object:
-  const { datos } = resumen;
+  const { datos, cotizacion } = resumen;
 
   return (
     <Contenedor>  
@@ -40,7 +41,12 @@ function App() {
         <Resumen 
           datos={datos}
         />
+        
+        <Resultado 
+          cotizacion={cotizacion}
+        />
       </ContenedorFormulario>
+
     </Contenedor>
   );
 }

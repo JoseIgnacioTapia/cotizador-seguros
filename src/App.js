@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import Header from "./components/Header";
 import Formulario from "./components/Formulario";
 import Resumen from "./components/Resumen";
 import Resultado from "./components/Resultado";
+import Spinner from "./components/Spinner";
 
 import styled from '@emotion/styled';
 
@@ -25,8 +26,11 @@ function App() {
       plan: ''
     }
   });
+  const [cargando, guardarCargando] = useState(false);
+
   // Only extracting datos object:
   const { datos, cotizacion } = resumen;
+
 
   return (
     <Contenedor>  
@@ -37,14 +41,25 @@ function App() {
       <ContenedorFormulario>
         <Formulario 
           guardarResumen={guardarResumen}
+          guardarCargando={guardarCargando}
         />
-        <Resumen 
-          datos={datos}
-        />
+
+        {cargando ? <Spinner /> : null}
         
-        <Resultado 
-          cotizacion={cotizacion}
-        />
+
+        {!cargando 
+        ? 
+          <Fragment>
+            <Resumen 
+              datos={datos}
+            />
+            <Resultado 
+              cotizacion={cotizacion}
+            />
+          </Fragment>
+        : null
+        }
+
       </ContenedorFormulario>
 
     </Contenedor>
